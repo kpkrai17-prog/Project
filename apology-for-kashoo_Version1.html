@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kashoo — I’m sorry</title>
+  <style>
+    :root{
+      --bg1:#ff9a9e;
+      --bg2:#fad0c4;
+      --accent:#ff6b6b;
+      --card:#fff8f8;
+      --text:#3b2d2d;
+      --muted:#6b5656;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{
+      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.25), rgba(255,255,255,0) 10%),
+                  linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex;align-items:center;justify-content:center;padding:24px;
+    }
+    .card{
+      width:100%;max-width:920px;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.9));
+      border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,0.12);overflow:hidden;display:flex;gap:0;
+      align-items:stretch;
+    }
+    .left{
+      padding:44px;flex:1;display:flex;flex-direction:column;justify-content:center;
+    }
+    h1{margin:0;font-size:2.1rem;color:var(--text);line-height:1.02}
+    h2{margin:6px 0 16px;font-weight:600;color:var(--muted);font-size:1rem}
+    p{color:var(--text);margin:10px 0 18px;line-height:1.5}
+    .buttons{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{
+      background:var(--accent);color:white;padding:12px 18px;border-radius:10px;border:0;font-weight:600;cursor:pointer;
+      box-shadow:0 6px 18px rgba(255,107,107,0.25);transition:transform .13s ease;
+    }
+    .btn.secondary{background:transparent;color:var(--accent);border:2px solid rgba(255,107,107,0.14)}
+    .btn:active{transform:translateY(2px) scale(.997)}
+    .pledge{margin-top:14px;border-left:3px solid rgba(255,107,107,0.18);padding-left:12px;color:var(--muted);display:none}
+    .left small{color:var(--muted)}
+    .right{
+      width:380px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.98));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;
+    }
+    .photo{
+      width:220px;height:220px;border-radius:50%;background:linear-gradient(135deg,#fff,#ffecec);display:flex;align-items:center;justify-content:center;border:6px solid rgba(255,107,107,0.12);overflow:hidden;
+      box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    }
+    .photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .heart{
+      margin-top:18px;width:90px;height:90px;display:inline-block;position:relative;
+    }
+    /* simple heart using CSS */
+    .heart:before,.heart:after{
+      content:"";position:absolute;left:45px;top:0;width:45px;height:72px;background:var(--accent);border-radius:45px 45px 0 0;transform:rotate(-45deg);transform-origin:0 100%;
+      transition:transform .22s;
+    }
+    .heart:after{left:0;transform:rotate(45deg);transform-origin:100% 100%}
+    .heart.pulse:before,.heart.pulse:after{transform:scale(1.06) rotate(-45deg)}
+    .note{margin-top:18px;color:var(--muted);text-align:center;font-size:0.95rem}
+    /* confetti pieces */
+    .confetti-piece{position:fixed;z-index:40;pointer-events:none;will-change:transform,opacity}
+    @media(max-width:880px){
+      .card{flex-direction:column}
+      .right{width:100%;padding:20px}
+      .left{padding:26px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <div class="left">
+      <h1 id="title">Kashoo — I am so sorry</h1>
+      <h2>You mean the world to me, and I hurt you. I want to make it right.</h2>
+      <p id="message">Kashoo, I’m sorry for hurting you. I take full responsibility, and I understand how my words/actions caused you pain. I love you and I want to learn from this and be better — for you, for us. Please let me know how I can make it right. I will listen, change, and prove it with my actions.</p>
+      <div class="buttons">
+        <button class="btn" id="forgiveBtn">Forgive me?</button>
+        <button class="btn secondary" id="readMoreBtn">Read a longer note</button>
+      </div>
+      <div class="pledge" id="pledge">
+        <small>My promise: I will listen without defending, apologize when I’m wrong, and take steps so this doesn’t happen again. I’m ready to talk when you are.</small>
+      </div>
+    </div>
+
+    <div class="right" aria-hidden="true">
+      <div class="photo" id="photo">
+        <!-- Replace the src with a real photo or a meaningful image -->
+        <img src="https://images.unsplash.com/photo-1511974035430-5de47d3b95da?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Something special for Kashoo">
+      </div>
+      <div class="heart" id="heart" title="heart"></div>
+      <div class="note">I made this just for you. Please read when you’re ready.</div>
+    </div>
+  </div>
+
+  <script>
+    // Basic confetti effect and interactivity
+    const btn = document.getElementById('forgiveBtn');
+    const pledge = document.getElementById('pledge');
+    const heart = document.getElementById('heart');
+    const readMore = document.getElementById('readMoreBtn');
+    const messageEl = document.getElementById('message');
+
+    function makeConfetti(x, y){
+      for(let i=0;i<28;i++){
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        const size = Math.random()*10 + 6;
+        el.style.width = size+'px';
+        el.style.height = (size*0.6)+'px';
+        el.style.left = x + (Math.random()*80-40) + 'px';
+        el.style.top = y + (Math.random()*80-40) + 'px';
+        el.style.background = ['#FF6B6B','#FFC75F','#F9F871','#9AE6B4','#A0C4FF'][Math.floor(Math.random()*5)];
+        el.style.transform = 'translateY(0) rotate('+Math.random()*360+'deg)';
+        el.style.opacity = '1';
+        document.body.appendChild(el);
+        // animate
+        const dx = (Math.random()*2-1)*200;
+        const dy = Math.random()*400 + 120;
+        const rot = (Math.random()*720-360);
+        el.animate([
+          { transform:`translate(0,0) rotate(0deg)`, opacity:1 },
+          { transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`, opacity:0.01 }
+        ], {duration:1200+Math.random()*900, easing:'cubic-bezier(.2,.6,.2,1)'});
+        setTimeout(()=> el.remove(), 2200);
+      }
+    }
+
+    btn.addEventListener('click', (e)=>{
+      // pulse heart
+      heart.classList.add('pulse');
+      setTimeout(()=> heart.classList.remove('pulse'), 600);
+
+      // show pledge
+      pledge.style.display = 'block';
+
+      // confetti at center
+      const rect = btn.getBoundingClientRect();
+      makeConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+    });
+
+    readMore.addEventListener('click', ()=>{
+      const long = "Kashoo — I am deeply sorry. I know I hurt you, and I'm ashamed of my actions. You didn't deserve that and I should have treated you with more care and respect. I want to understand what happened from your perspective, hear how you feel, and do whatever I can to fix this. I love you and I'm committed to changing my behavior. Please tell me when you're ready to talk, and I will listen without interrupting.";
+      messageEl.textContent = long;
+      pledge.style.display = 'block';
+      makeConfetti(window.innerWidth/2, window.innerHeight/3);
+    });
+
+    // Small accessibility: allow pressing Enter/Space on focused button
+    [btn, readMore].forEach(b=>{
+      b.addEventListener('keyup', (e)=>{
+        if(e.key === 'Enter' || e.key === ' ') b.click();
+      });
+    });
+
+    // Optional: gently animate heart
+    setInterval(()=> {
+      heart.classList.add('pulse');
+      setTimeout(()=> heart.classList.remove('pulse'), 500);
+    }, 3500);
+  </script>
+</body>
+</html>
