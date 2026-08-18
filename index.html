@@ -1,1 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>I'm Sorry Kashoo ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    text-align: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.page {
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 25px;
+    animation: fade 1s ease;
+}
+
+.page.active {
+    display: flex;
+}
+
+h1 {
+    font-size: 42px;
+    margin: 10px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+p {
+    font-size: 19px;
+    line-height: 1.7;
+    max-width: 650px;
+}
+
+button {
+    background: white;
+    color: #ff416c;
+    border: none;
+    padding: 15px 28px;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+.heart {
+    font-size: 80px;
+    animation: heartbeat 1s infinite;
+}
+
+.floating-heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 25px;
+    animation: float 5s linear forwards;
+    pointer-events: none;
+}
+
+.typing {
+    min-height: 80px;
+}
+
+.warning {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.no-button {
+    position: relative;
+}
+
+@keyframes heartbeat {
+    0%,100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<section class="page active" id="page1">
+
+    <div class="heart">❤️</div>
+
+    <h1>Kashoo...</h1>
+
+    <p>
+        I know you're probably still upset with me...
+        <br><br>
+        But please give me just one minute.
+        🥺
+    </p>
+
+    <button onclick="nextPage(2)">
+        Give Me One Minute 💌
+    </button>
+
+</section>
+
+
+<!-- PAGE 2 -->
+<section class="page" id="page2">
+
+    <h1>Okay... Here It Is 🥺</h1>
+
+    <p class="typing" id="typingText"></p>
+
+    <button id="continueBtn" onclick="nextPage(3)" style="display:none;">
+        I Have More To Say ❤️
+    </button>
+
+</section>
+
+
+<!-- PAGE 3 -->
+<section class="page" id="page3">
+
+    <div class="heart">💔</div>
+
+    <h1>I Know I Hurt You</h1>
+
+    <p>
+        And I'm not going to make excuses.
+        <br><br>
+
+        If I could take back the words or actions
+        that hurt you, I would.
+        <br><br>
+
+        I'm genuinely sorry, Kashoo.
+        You didn't deserve to feel hurt because of me.
+    </p>
+
+    <button onclick="nextPage(4)">
+        Please Read This ❤️
+    </button>
+
+</section>
+
+
+<!-- PAGE 4 -->
+<section class="page" id="page4">
+
+    <div class="heart">❤️‍🩹</div>
+
+    <h1>You Mean A Lot To Me</h1>
+
+    <p>
+        Sometimes I make mistakes.
+        Sometimes I say things I shouldn't.
+        <br><br>
+
+        But none of that changes how much
+        you mean to me.
+        <br><br>
+
+        I don't want my mistake to become
+        the reason we lose something beautiful.
+    </p>
+
+    <button onclick="nextPage(5)">
+        One Question... 🥺
+    </button>
+
+</section>
+
+
+<!-- PAGE 5 -->
+<section class="page" id="page5">
+
+    <div class="heart">🥺</div>
+
+    <h1>Kashoo...</h1>
+
+    <h2>Will You Forgive Me?</h2>
+
+    <button onclick="yesAnswer()">
+        Yes ❤️
+    </button>
+
+    <button class="no-button" id="noBtn" onclick="moveNo()">
+        No 😭
+    </button>
+
+    <p id="answer"></p>
+
+</section>
+
+
+<!-- PAGE 6 -->
+<section class="page" id="page6">
+
+    <div class="heart">💖</div>
+
+    <h1>Thank You ❤️</h1>
+
+    <p>
+        I promise I'll learn from this.
+        <br><br>
+
+        I'll try harder to understand you,
+        listen to you, and never take you for granted.
+        <br><br>
+
+        You're not just someone I love...
+        <br>
+        <b>You're someone I don't want to lose.</b>
+        ❤️
+    </p>
+
+    <h2>I Love You, Kashoo ❤️</h2>
+
+</section>
+
+
+<script>
+
+function nextPage(number) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById("page" + number).classList.add("active");
+
+    createHearts();
+
+    if (number === 2) {
+        startTyping();
+    }
+}
+
+
+function startTyping() {
+
+    const text =
+    "Kashoo, I'm truly sorry. I know I hurt you, and honestly, I hate knowing that I was the reason you felt sad. You mean so much to me, and I never want my mistakes to make you question how much I care about you. ❤️";
+
+    let i = 0;
+
+    const typing = document.getElementById("typingText");
+    const button = document.getElementById("continueBtn");
+
+    typing.innerHTML = "";
+
+    function type() {
+
+        if (i < text.length) {
+
+            typing.innerHTML += text.charAt(i);
+
+            i++;
+
+            setTimeout(type, 35);
+
+        } else {
+
+            button.style.display = "inline-block";
+
+        }
+    }
+
+    type();
+}
+
+
+function yesAnswer() {
+
+    document.getElementById("answer").innerHTML =
+    "You have no idea how happy you just made me. ❤️🥺";
+
+    createHearts();
+
+    setTimeout(function() {
+        nextPage(6);
+    }, 2000);
+}
+
+
+function moveNo() {
+
+    const button = document.getElementById("noBtn");
+
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+
+    button.style.transform =
+    "translate(" + x + "px," + y + "px)";
+
+    document.getElementById("answer").innerHTML =
+    "Please don't press that one 😭❤️";
+}
+
+
+function createHearts() {
+
+    for (let i = 0; i < 15; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "floating-heart";
+
+        const hearts = [
+            "❤️",
+            "💕",
+            "💗",
+            "💖",
+            "💓",
+            "🥺"
+        ];
+
+        heart.innerHTML =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+        heart.style.left =
+        Math.random() * 100 + "vw";
+
+        heart.style.animationDuration =
+        (3 + Math.random() * 4) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 7000);
+    }
+}
+
+</script>
+
+</body>
+</html>
