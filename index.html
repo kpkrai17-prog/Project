@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>I'm Sorry, Kashoo ❤️</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#fff;font-family:Georgia,serif;background:radial-gradient(circle at top,#4a0b24,#190512 50%,#080308);overflow-x:hidden}
+section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;text-align:center}.card{max-width:760px;width:100%}
+h1{font-size:clamp(3rem,10vw,6rem);color:#ffd5e5;text-shadow:0 0 30px #ff4d91}h2{font-size:clamp(2rem,7vw,4rem);color:#ffd7e7}
+p{font-size:clamp(1.05rem,3vw,1.3rem);line-height:1.9;color:#f9dce8}.subtitle{color:#eeb4c9}
+button{border:1px solid #ffffff40;border-radius:999px;padding:15px 27px;margin:10px;font-weight:bold;color:white;background:linear-gradient(135deg,#9d174d,#e11d72);box-shadow:0 0 25px #ff37804d;cursor:pointer;transition:.3s}button:hover{transform:translateY(-4px) scale(1.03)}
+.heart{font-size:5rem;animation:beat 1.2s infinite;filter:drop-shadow(0 0 20px #ff4d91)}@keyframes beat{50%{transform:scale(1.18)}}
+.message,.love-card{padding:25px;border-radius:22px;background:#ffffff0d;border:1px solid #ffb4d233;backdrop-filter:blur(10px);margin:25px auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}.love-card{opacity:0;transform:translateY(20px);transition:.5s}.love-card.show{opacity:1;transform:none}
+.hidden{display:none}.fade{animation:fade .8s ease}@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.envelope{width:180px;height:125px;margin:25px auto;background:#b91c5a;border-radius:8px;box-shadow:0 0 45px #ff378073;cursor:pointer;position:relative}.envelope:before{content:"";position:absolute;top:0;border-left:90px solid transparent;border-right:90px solid transparent;border-top:70px solid #ef6b9d;transition:.6s;transform-origin:top}.envelope.open:before{transform:rotateX(180deg)}
+.floating-heart{position:fixed;bottom:-30px;z-index:10;pointer-events:none;animation:up linear forwards}@keyframes up{to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+.music{position:fixed;right:15px;top:15px;z-index:20;width:48px;height:48px;padding:0;margin:0}
+</style>
+</head>
+<body>
+<button class="music" id="musicBtn">🔇</button>
+<audio id="music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+<section id="home"><div class="card"><div class="heart">❤️</div><p class="subtitle">Kashoo… I need to tell you something.</p><h1>I'm Sorry</h1><button onclick="go('apology')">Open My Heart 💌</button></div></section>
+
+<section id="apology"><div class="card"><h2>I'm Sorry, Kashoo ❤️</h2><div class="message"><p id="type"></p></div><button onclick="go('things')">One More Thing… 💗</button></div></section>
+
+<section id="things"><div class="card"><h2>Things I Want You To Know</h2><p class="subtitle">Because sometimes “sorry” isn't enough.</p><div class="cards">
+<div class="love-card">💗<br><br>You matter to me more than you know.</div>
+<div class="love-card">🌙<br><br>I hate knowing that I made you sad.</div>
+<div class="love-card">🥺<br><br>I wish I could take back the moment I hurt you.</div>
+<div class="love-card">❤️<br><br>I don't want one mistake to define us.</div>
+<div class="love-card">🫶<br><br>I want to learn, improve, and love you better.</div>
+</div><button onclick="cards()">Show My Heart 💞</button><button onclick="go('heart')">There's More… ❤️</button></div></section>
+
+<section id="heart"><div class="card"><div class="heart">💗</div><h2>Press This</h2><p class="subtitle">If you're ready to hear what's in my heart.</p><button onclick="heart()">Press My Heart ❤️</button><div id="heartMsg" class="message hidden"><p>I don't expect you to forget everything instantly. I just hope you can see how genuinely sorry I am. I love you, Kashoo, and I never want to intentionally hurt you again.</p></div><button onclick="go('final')">Continue 💌</button></div></section>
+
+<section id="final"><div class="card"><h2>Kashoo… 🥺❤️</h2><p class="subtitle">I have one last question for you.</p><div class="envelope" id="env" onclick="openLetter()"></div><div id="letter" class="message hidden"><p>Kashoo, will you forgive me? 🥺❤️</p><p>I'm not here to make excuses. I realize my mistake, I'm sorry from my heart, and I want to make things right.</p></div><div id="choices" class="hidden"><button onclick="answer(true)">Yes ❤️</button><button onclick="answer(false)">I need some time 🥺</button></div><div id="response" class="message hidden"></div><p>Made with a sorry heart, just for Kashoo. ❤️</p></div></section>
+
+<script>
+const text=`Kashoo, I know I hurt you, and I'm truly sorry. I never wanted my words or actions to become the reason for your tears or sadness. You mean so much to me, and knowing that I hurt the person I love is something I deeply regret.
+
+I'm not here to make excuses. I just want you to know that I realize my mistake, I'm sorry from my heart, and I want to make things right.
+
+You are incredibly special to me, Kashoo. ❤️`;
+let i=0;
+function type(){if(i<text.length){document.getElementById('type').innerHTML=text.slice(0,++i).replaceAll('\n','<br>');setTimeout(type,25)}}type();
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function cards(){document.querySelectorAll('.love-card').forEach((x,i)=>setTimeout(()=>x.classList.add('show'),i*250));hearts(20)}
+function heart(){document.getElementById('heartMsg').classList.remove('hidden');hearts(60)}
+function openLetter(){document.getElementById('env').classList.add('open');setTimeout(()=>{document.getElementById('letter').classList.remove('hidden');document.getElementById('choices').classList.remove('hidden')},600)}
+function answer(yes){let r=document.getElementById('response');r.classList.remove('hidden');r.innerHTML=yes?'<p>Thank you, my Kashoo ❤️<br><br>I promise I will cherish this chance and do my best to love you better.</p>':'<p>I understand. Take all the time you need. 🥺❤️<br><br>I won’t pressure you. Your feelings matter to me, and I’ll still be here.</p>';if(yes)hearts(150)}
+function hearts(n){for(let j=0;j<n;j++)setTimeout(()=>{let h=document.createElement('div');h.className='floating-heart';h.textContent=['❤️','💗','💕','💖','💞'][Math.floor(Math.random()*5)];h.style.left=Math.random()*100+'vw';h.style.animationDuration=3+Math.random()*4+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),7500)},j*30)}
+const music=document.getElementById('music'),btn=document.getElementById('musicBtn');let playing=false;
+btn.onclick=()=>{if(!playing){music.play().then(()=>{playing=true;btn.textContent='🔊'}).catch(()=>alert('Put a music.mp3 file beside index.html, then try again.'))}else{music.pause();playing=false;btn.textContent='🔇'}}
+setInterval(()=>hearts(1),2200);
+</script>
+</body>
+</html>
